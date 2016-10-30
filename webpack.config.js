@@ -4,7 +4,7 @@ module.exports = {
     entry: {
         app: ['./node_modules/zone.js/dist/zone.js',
             './node_modules/reflect-metadata/reflect.js',
-            './app/app.ts']
+            './testing/app.ts']
     },
     output: {
         filename: "./bundles/[name].js"

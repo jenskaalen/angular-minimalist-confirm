@@ -5,6 +5,7 @@ var plumber = require('gulp-plumber');
 
 gulp.task('default', function(){
     return gulp.src('.')
+    .pipe(plumber())
   .pipe(webpack(webpackConfig))
   .pipe(gulp.dest('.'));
 });

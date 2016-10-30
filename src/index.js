@@ -1,0 +1,1 @@
+exports.ConfirmerModule = require('./confirmer.module').ConfirmerModule;

@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@angular/core": "^2.0.1"
+  },
+  "devDependencies": {
+  },
+  "name": "angular-minimalist-confirm",
+  "version": "0.1.1",
+  "description": "A minimalistic and configurable confirm directive for angular",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http:/tfs:8080/tfs/DefaultCollection/_git/angular-minimalist-confirm"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [
+    "angular", "confirm", "minimalist", "modal"
+  ]
+}

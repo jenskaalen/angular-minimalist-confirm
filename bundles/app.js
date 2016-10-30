@@ -37334,13 +37334,14 @@
 	var core_1 = __webpack_require__(7);
 	var platform_browser_1 = __webpack_require__(25);
 	var test_component_1 = __webpack_require__(28);
-	var forms_1 = __webpack_require__(30);
+	var forms_1 = __webpack_require__(32);
+	var confirmer_module_1 = __webpack_require__(36);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
 	    AppModule = __decorate([
 	        core_1.NgModule({
-	            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule],
+	            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, confirmer_module_1.ConfirmerModule],
 	            declarations: [test_component_1.TestComponent],
 	            bootstrap: [test_component_1.TestComponent]
 	        }), 
@@ -37366,14 +37367,19 @@
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(7);
+	var confirmer_directive_1 = __webpack_require__(29);
 	var TestComponent = (function () {
 	    function TestComponent() {
 	        this.testText = "this is the initial text";
 	    }
+	    TestComponent.prototype.accept = function () {
+	        console.log('accepto');
+	    };
 	    TestComponent = __decorate([
 	        core_1.Component({
 	            selector: 'test-component',
-	            template: __webpack_require__(29)
+	            template: __webpack_require__(31),
+	            providers: [confirmer_directive_1.ConfirmDirective]
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], TestComponent);
@@ -37384,12 +37390,109 @@
 
 /***/ },
 /* 29 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<h2>Alright, angular2 up and running!</h2>\r\n\r\n<div>\r\n    <input type=\"text\" name=\"testInput\" [(ngModel)]=\"testText\">\r\n</div> \r\n\r\n<div>The text repeated, just for show: {{ testText }} </div>"
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var confirmer_configuration_1 = __webpack_require__(30);
+	var ConfirmDirective = (function () {
+	    function ConfirmDirective(config, element, renderer) {
+	        this.config = config;
+	        this.element = element;
+	        this.renderer = renderer;
+	    }
+	    ConfirmDirective.prototype.ngOnInit = function () {
+	        if (!this.confirmText) {
+	            this.confirmText = this.config.defaultText;
+	        }
+	        var ele = this.element.nativeElement;
+	        var createConfirm = this.createConfirm;
+	        console.log(this.config);
+	        var that = this;
+	        ele.addEventListener('click', function () {
+	            createConfirm(that);
+	        });
+	    };
+	    ConfirmDirective.prototype.createConfirm = function (that) {
+	        var confirmElement = document.createElement('div');
+	        confirmElement.innerHTML = that.config.htmlBase;
+	        var accept = that.accept;
+	        confirmElement.querySelector('.confirm-text').textContent = that.confirmText;
+	        confirmElement.querySelector('[name=accept]').addEventListener('click', function () {
+	            confirmElement.remove();
+	            accept();
+	        });
+	        confirmElement.querySelector('[name=cancel],.confirm-overlay').addEventListener('click', function () {
+	            confirmElement.remove();
+	        });
+	        document.body.appendChild(confirmElement);
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Function)
+	    ], ConfirmDirective.prototype, "accept", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], ConfirmDirective.prototype, "confirmText", void 0);
+	    ConfirmDirective = __decorate([
+	        core_1.Directive({
+	            selector: '[confirm]',
+	            providers: [confirmer_configuration_1.ConfirmerConfiguration]
+	        }), 
+	        __metadata('design:paramtypes', [confirmer_configuration_1.ConfirmerConfiguration, core_1.ElementRef, core_1.Renderer])
+	    ], ConfirmDirective);
+	    return ConfirmDirective;
+	}());
+	exports.ConfirmDirective = ConfirmDirective;
+
 
 /***/ },
 /* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var ConfirmerConfiguration = (function () {
+	    function ConfirmerConfiguration() {
+	        this.defaultText = "Are you sure?";
+	        this.htmlBase = "<div class=\"confirm-overlay\">\n    <style>\n        .confirm-overlay {\n            position: fixed;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: rgba(0, 0, 0, 0.7);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n        .confirm-box{\n            min-width: 250px;\n            min-height: 100px;\n            background-color: white;\n            flex-direction: column;\n            display: flex;\n            justify-content: space-around;\n        }\n        .confirm-text { \n            width: 100%;\n            padding: 5px;\n            margin: 5px;\n            text-align: center;\n            flex-grow: 1;\n        }\n        .confirm-box button { \n            margin: 1em;\n        }\n        .button-group { \n            text-align: center;\n        }\n    </style>\n    <div class=\"confirm-box\">\n    <div class=\"confirm-text\"></div>\n    <div class=\"button-group\">\n    <button name=\"cancel\">No</button>\n    <button name=\"accept\">Yes</button>\n    </div>\n    </div>\n    </div>";
+	    }
+	    ConfirmerConfiguration = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [])
+	    ], ConfirmerConfiguration);
+	    return ConfirmerConfiguration;
+	}());
+	exports.ConfirmerConfiguration = ConfirmerConfiguration;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = "<h2>Alright, angular2 up and running!</h2>\r\n\r\n<div>\r\n    <input type=\"text\" name=\"testInput\" [(ngModel)]=\"testText\">\r\n</div> \r\n\r\n<div>The text repeated, just for show: {{ testText }} </div>\r\n<button confirm [accept]=\"accept\" confirmText=\"party on\">hoi</button>"
+
+/***/ },
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37398,7 +37501,7 @@
 	 * License: MIT
 	 */
 	(function (global, factory) {
-	     true ? factory(exports, __webpack_require__(7), __webpack_require__(31), __webpack_require__(8), __webpack_require__(9), __webpack_require__(32)) :
+	     true ? factory(exports, __webpack_require__(7), __webpack_require__(33), __webpack_require__(8), __webpack_require__(9), __webpack_require__(34)) :
 	    typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/operator/toPromise', 'rxjs/Subject', 'rxjs/Observable', 'rxjs/observable/fromPromise'], factory) :
 	    (factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable.prototype,global.Rx,global.Rx,global.Rx.Observable));
 	}(this, function (exports,_angular_core,rxjs_operator_toPromise,rxjs_Subject,rxjs_Observable,rxjs_observable_fromPromise) { 'use strict';
@@ -42069,7 +42172,7 @@
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42102,16 +42205,16 @@
 	//# sourceMappingURL=toPromise.js.map
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var PromiseObservable_1 = __webpack_require__(33);
+	var PromiseObservable_1 = __webpack_require__(35);
 	exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 	//# sourceMappingURL=fromPromise.js.map
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42235,6 +42338,41 @@
 	    }
 	}
 	//# sourceMappingURL=PromiseObservable.js.map
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(7);
+	var confirmer_directive_1 = __webpack_require__(29);
+	var confirmer_configuration_1 = __webpack_require__(30);
+	var platform_browser_1 = __webpack_require__(25);
+	var ConfirmerModule = (function () {
+	    function ConfirmerModule() {
+	    }
+	    ConfirmerModule = __decorate([
+	        core_1.NgModule({
+	            imports: [platform_browser_1.BrowserModule],
+	            declarations: [confirmer_directive_1.ConfirmDirective],
+	            providers: [confirmer_configuration_1.ConfirmerConfiguration],
+	            exports: [confirmer_directive_1.ConfirmDirective]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], ConfirmerModule);
+	    return ConfirmerModule;
+	}());
+	exports.ConfirmerModule = ConfirmerModule;
+
 
 /***/ }
 /******/ ]);
