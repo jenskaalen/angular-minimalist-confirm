@@ -11,30 +11,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var confirmer_configuration_1 = require("./confirmer.configuration");
 var ConfirmDirective = (function () {
-    function ConfirmDirective(config) {
+    function ConfirmDirective(config, element, renderer) {
         this.config = config;
+        this.element = element;
+        this.renderer = renderer;
     }
     ConfirmDirective.prototype.ngOnInit = function () {
-        var element = document.createElement('div');
-        element.classList.add('classOverlay');
-        var accept = this.accept;
-        element.innerHTML = this.config.htmlBase.replace('[box]', this.config.htmlText);
-        element.querySelector('[name=cancel]').addEventListener('click', function () {
-            element.remove();
+        if (!this.confirmText) {
+            this.confirmText = this.config.defaultText;
+        }
+        var ele = this.element.nativeElement;
+        var createConfirm = this.createConfirm;
+        console.log(this.config);
+        var that = this;
+        ele.addEventListener('click', function () {
+            createConfirm(that);
+        });
+    };
+    ConfirmDirective.prototype.createConfirm = function (that) {
+        var confirmElement = document.createElement('div');
+        confirmElement.innerHTML = that.config.htmlBase;
+        var accept = that.accept;
+        confirmElement.querySelector('.confirm-text').textContent = that.confirmText;
+        confirmElement.querySelector('[name=accept]').addEventListener('click', function () {
+            confirmElement.remove();
             accept();
         });
-        document.body.appendChild(element);
+        confirmElement.querySelector('[name=cancel],.confirm-overlay').addEventListener('click', function () {
+            confirmElement.remove();
+        });
+        document.body.appendChild(confirmElement);
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Function)
     ], ConfirmDirective.prototype, "accept", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], ConfirmDirective.prototype, "confirmText", void 0);
     ConfirmDirective = __decorate([
         core_1.Directive({
             selector: '[confirm]',
             providers: [confirmer_configuration_1.ConfirmerConfiguration]
         }), 
-        __metadata('design:paramtypes', [confirmer_configuration_1.ConfirmerConfiguration])
+        __metadata('design:paramtypes', [confirmer_configuration_1.ConfirmerConfiguration, core_1.ElementRef, core_1.Renderer])
     ], ConfirmDirective);
     return ConfirmDirective;
 }());
