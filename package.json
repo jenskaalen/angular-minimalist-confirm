@@ -22,24 +22,5 @@
     "typescript": "^2.0.2",
     "webpack": "^1.13.2",
     "webpack-stream": "^3.2.0"
-  },
-  "name": "angular-minimalist-confirm",
-  "version": "1.0.0",
-  "description": "0.1.0",
-  "main": "confirm.module.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "tsc --p"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http:/tfs:8080/tfs/DefaultCollection/_git/angular-minimalist-confirm"
-  },
-  "author": "",
-  "license": "ISC",
-  "keywords": [
-    "angular", "confirm", "minimalist", "modal"
-  ],
-  "module": "index.js",
-  "typings": ""
+  }
 }

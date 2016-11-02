@@ -9,10 +9,10 @@
     "removeComments": false,
     "noImplicitAny": false,
     "types": [
-      "node", "core-js"
+      "node",
+      "core-js"
+    ],
+    "filesGlob": [
+      "src/*"
     ]
-  },
-  "filesGlob": [
-    "src/*"
-  ]
-}
+  }
