@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
 export class ConfirmerConfiguration {
+    acceptButtonClasses:string[] = ['peen'];
+    cancelButtonClasses:string[] = [];
     defaultText: string = `Are you sure?`;
     htmlBase: string = `<div class="confirm-overlay">
     <style>

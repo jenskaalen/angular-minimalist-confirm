@@ -11,8 +11,9 @@
     "types": [
       "node",
       "core-js"
-    ],
-    "filesGlob": [
-      "src/*"
     ]
-  }
+  },
+  "filesGlob": [
+    "src/*"
+  ]
+}

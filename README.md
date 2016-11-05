@@ -34,3 +34,36 @@ And the html template using the directive
 ```html
 <button confirm [accept]="accept" confirmText="Are you sure you wanna do that?">Delete yourself</button>
 ```
+
+##Configuring the look
+At the moment you have just two ways of configuring the looks, both are by overriding the ConfirmerConfiguration class.   
+1. Changing the whole html template for the modal. The only thing that is required the following:  
+* Two buttons that are have the html attribute 'name="cancel' and 'name=accept'.  
+ Like so  
+ ```html
+<button name="cancel">No</button>
+<button name="accept">Yes</button>
+```
+
+2. You can add css classes to the buttons. 
+
+So, that becomes 
+```typescript
+export class ConfirmerConfigExt extends ConfirmerConfiguration 
+{
+    constructor()
+    {
+        super();
+        this.acceptButtonClasses = ["accept-button"];
+        this.cancelButtonClasses = ["cancel-button"];
+        this.htmlBase = "<div class=\"whateverlayout\"><button name=\"cancel\">No</button><button name=\"accept\">Yes</button></div>"
+    }
+}
+
+@NgModule({
+    imports: [ BrowserModule, FormsModule, ConfirmerModule ],
+    declarations: [ TestComponent ],
+    providers: [ { provide: ConfirmerConfiguration, useClass: ConfirmerConfigExt } ],
+    bootstrap:    [ TestComponent ]
+})
+```

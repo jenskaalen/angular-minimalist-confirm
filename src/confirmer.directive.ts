@@ -1,17 +1,16 @@
 import { AppModule } from './../testing/app.module';
 import { Input, Renderer, Directive, OnInit, ElementRef } from '@angular/core';
 import { ConfirmerConfiguration } from "./confirmer.configuration";
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 @Directive({
-    selector: '[confirm]',
-    providers: [ConfirmerConfiguration]
+    selector: '[confirm]'
 })
 export class ConfirmDirective implements OnInit {
     @Input() accept: Function;
     @Input() confirmText: string;
 
-    constructor(private config: ConfirmerConfiguration, private element: ElementRef, private renderer: Renderer) {
+    constructor(@Inject(ConfirmerConfiguration) private config: ConfirmerConfiguration, private element: ElementRef, private renderer: Renderer) {
     }
 
     ngOnInit() {
@@ -21,7 +20,6 @@ export class ConfirmDirective implements OnInit {
 
         let ele: HTMLElement = this.element.nativeElement;
         let createConfirm = this.createConfirm;
-        console.log(this.config);
         let that = this;
 
         ele.addEventListener('click', () => {
@@ -39,11 +37,25 @@ export class ConfirmDirective implements OnInit {
             accept();
         });
 
-        confirmElement.querySelector('[name=cancel],.confirm-overlay').addEventListener('click', () => {
+        var cancelBtn = confirmElement.querySelector('[name=cancel]');
+        var acceptBtn = confirmElement.querySelector('[name=accept]'); 
+
+        confirmElement.querySelector('.confirm-overlay').addEventListener('click', () => {
             confirmElement.remove();
         });
 
+        if (that.config.cancelButtonClasses) {
+            that.config.cancelButtonClasses.forEach(cssClass => {
+                cancelBtn.classList.add(cssClass);
+            });
+        }
+        
+        if (that.config.acceptButtonClasses) {
+            that.config.acceptButtonClasses.forEach(cssClass => {
+                acceptBtn.classList.add(cssClass); 
+            });
+        }
 
-        document.body.appendChild(confirmElement);
+        that.element.nativeElement.appendChild(confirmElement);
     }
 }
