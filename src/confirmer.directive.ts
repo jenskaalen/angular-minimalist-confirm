@@ -1,4 +1,3 @@
-import { AppModule } from './../testing/app.module';
 import { Input, Renderer, Directive, OnInit, ElementRef } from '@angular/core';
 import { ConfirmerConfiguration } from "./confirmer.configuration";
 import { Injectable, Inject } from '@angular/core';
