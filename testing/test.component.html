@@ -7,4 +7,4 @@
 </div> 
 
 <div>The text repeated, just for show: {{ testText }} </div>
-<button confirm [accept]="accept" confirmText="party on">hoi</button>
+<button confirm (accept)="accept('just some text')" confirmText="party on">hoi</button>

@@ -25,14 +25,14 @@ A component with a function to fire
 export class TestComponent {
     testText: string = "this is the initial text";
 
-    accept(){
-        console.log('Deleted yourself');
+    deleteYourself(name: string){
+        console.log('Deleted yourself: ' + name);
     }
 }
 ```
 And the html template using the directive
 ```html
-<button confirm [accept]="accept" confirmText="Are you sure you wanna do that?">Delete yourself</button>
+<button confirm (accept)="deleteYourself('Gregor')" confirmText="Are you sure you wanna do that?">Delete yourself</button>
 ```
 
 ##Configuring the look

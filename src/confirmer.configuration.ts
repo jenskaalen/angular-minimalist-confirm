@@ -4,7 +4,7 @@ export class ConfirmerConfiguration {
     acceptButtonClasses:string[] = ['peen'];
     cancelButtonClasses:string[] = [];
     defaultText: string = `Are you sure?`;
-    htmlBase: string = `<div class="confirm-overlay">
+    htmlBase: string = `<div class="">
     <style>
         .confirm-overlay {
             position: fixed;

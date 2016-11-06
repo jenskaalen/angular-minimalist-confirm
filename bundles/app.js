@@ -37380,7 +37380,7 @@
 	        this.acceptButtonClasses = ['peen'];
 	        this.cancelButtonClasses = [];
 	        this.defaultText = "Are you sure?";
-	        this.htmlBase = "<div class=\"confirm-overlay\">\n    <style>\n        .confirm-overlay {\n            position: fixed;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: rgba(0, 0, 0, 0.7);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            z-index: 12;\n        }\n        .confirm-box{\n            min-width: 250px;\n            min-height: 100px;\n            background-color: white;\n            flex-direction: column;\n            display: flex;\n            justify-content: space-around;\n            z-index: 14;\n        }\n        .confirm-text { \n            width: 100%;\n            padding: 5px;\n            margin: 5px;\n            text-align: center;\n            flex-grow: 1;\n        }\n        .confirm-box button { \n            margin: 1em;\n        }\n        .button-group { \n            text-align: center;\n        }\n    </style>\n    <div class=\"confirm-box\">\n    <div class=\"confirm-text\"></div>\n    <div class=\"button-group\">\n    <button name=\"cancel\">No</button>\n    <button name=\"accept\">Yes</button>\n    </div>\n    </div>\n    </div>";
+	        this.htmlBase = "<div class=\"\">\n    <style>\n        .confirm-overlay {\n            position: fixed;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: rgba(0, 0, 0, 0.7);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            z-index: 12;\n        }\n        .confirm-box{\n            min-width: 250px;\n            min-height: 100px;\n            background-color: white;\n            flex-direction: column;\n            display: flex;\n            justify-content: space-around;\n            z-index: 14;\n        }\n        .confirm-text { \n            width: 100%;\n            padding: 5px;\n            margin: 5px;\n            text-align: center;\n            flex-grow: 1;\n        }\n        .confirm-box button { \n            margin: 1em;\n        }\n        .button-group { \n            text-align: center;\n        }\n    </style>\n    <div class=\"confirm-box\">\n    <div class=\"confirm-text\"></div>\n    <div class=\"button-group\">\n    <button name=\"cancel\">No</button>\n    <button name=\"accept\">Yes</button>\n    </div>\n    </div>\n    </div>";
 	    }
 	    return ConfirmerConfiguration;
 	}());
@@ -37406,8 +37406,8 @@
 	    function TestComponent() {
 	        this.testText = "this is the initial text";
 	    }
-	    TestComponent.prototype.accept = function () {
-	        console.log('accepto');
+	    TestComponent.prototype.accept = function (text) {
+	        console.log(text);
 	    };
 	    TestComponent = __decorate([
 	        core_1.Component({
@@ -37425,7 +37425,7 @@
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "\r\n\r\n<h2>Alright, angular2 up and running!</h2>\r\n\r\n<div>\r\n    <input type=\"text\" name=\"testInput\" [(ngModel)]=\"testText\">\r\n</div> \r\n\r\n<div>The text repeated, just for show: {{ testText }} </div>\r\n<button confirm [accept]=\"accept\" confirmText=\"party on\">hoi</button>"
+	module.exports = "\r\n\r\n<h2>Alright, angular2 up and running!</h2>\r\n\r\n<div>\r\n    <input type=\"text\" name=\"testInput\" [(ngModel)]=\"testText\">\r\n</div> \r\n\r\n<div>The text repeated, just for show: {{ testText }} </div>\r\n<button confirm (accept)=\"accept('just some text')\" confirmText=\"party on\">hoi</button>"
 
 /***/ },
 /* 31 */
@@ -42335,6 +42335,7 @@
 	        this.config = config;
 	        this.element = element;
 	        this.renderer = renderer;
+	        this.accept = new core_1.EventEmitter();
 	    }
 	    ConfirmDirective.prototype.ngOnInit = function () {
 	        if (!this.confirmText) {
@@ -42348,24 +42349,24 @@
 	        });
 	    };
 	    ConfirmDirective.prototype.createConfirm = function (that) {
-	        console.log('gogo');
 	        var confirmElement = document.createElement('div');
+	        confirmElement.classList.add('confirm-overlay');
 	        confirmElement.innerHTML = that.config.htmlBase;
 	        var accept = that.accept;
 	        confirmElement.querySelector('.confirm-text').textContent = that.confirmText;
-	        confirmElement.querySelector('[name=accept]').addEventListener('click', function () {
-	            confirmElement.remove();
-	            accept();
-	        });
 	        var cancelBtn = confirmElement.querySelector('[name=cancel]');
 	        var acceptBtn = confirmElement.querySelector('[name=accept]');
-	        confirmElement.querySelector('.confirm-box').addEventListener('click', function (e) {
-	            e.stopPropagation();
-	        });
-	        confirmElement.addEventListener('click', function () {
+	        acceptBtn.addEventListener('click', function () {
+	            accept.emit(null);
 	            confirmElement.remove();
 	        });
 	        cancelBtn.addEventListener('click', function (e) {
+	            confirmElement.remove();
+	        });
+	        confirmElement.addEventListener('click', function (e) {
+	            confirmElement.remove();
+	        });
+	        confirmElement.querySelector('.confirm-box').addEventListener('click', function (e) {
 	            e.stopPropagation();
 	        });
 	        if (that.config.cancelButtonClasses) {
@@ -42381,8 +42382,8 @@
 	        document.body.appendChild(confirmElement);
 	    };
 	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Function)
+	        core_1.Output(), 
+	        __metadata('design:type', Object)
 	    ], ConfirmDirective.prototype, "accept", void 0);
 	    __decorate([
 	        core_1.Input(), 

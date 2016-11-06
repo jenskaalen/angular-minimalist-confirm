@@ -10,7 +10,7 @@ import { ConfirmDirective } from "../src/confirmer.directive";
 export class TestComponent {
     testText: string = "this is the initial text";
 
-    accept(){
-        console.log('accepto');
+    accept(text: string){
+        console.log(text);
     }
 }
