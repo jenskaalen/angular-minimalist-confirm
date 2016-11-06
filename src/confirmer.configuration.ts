@@ -16,6 +16,7 @@ export class ConfirmerConfiguration {
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 12;
         }
         .confirm-box{
             min-width: 250px;
@@ -24,6 +25,7 @@ export class ConfirmerConfiguration {
             flex-direction: column;
             display: flex;
             justify-content: space-around;
+            z-index: 14;
         }
         .confirm-text { 
             width: 100%;

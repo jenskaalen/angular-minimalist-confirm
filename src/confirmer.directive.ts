@@ -22,12 +22,13 @@ export class ConfirmDirective implements OnInit {
         let createConfirm = this.createConfirm;
         let that = this;
 
-        ele.addEventListener('click', () => {
+        ele.addEventListener('click', (e) => {
             createConfirm(that);
         });
     }
 
     private createConfirm(that) {
+        console.log('gogo');
         let confirmElement = document.createElement('div');
         confirmElement.innerHTML = that.config.htmlBase;
         let accept = that.accept;
@@ -40,8 +41,15 @@ export class ConfirmDirective implements OnInit {
         var cancelBtn = confirmElement.querySelector('[name=cancel]');
         var acceptBtn = confirmElement.querySelector('[name=accept]'); 
 
-        confirmElement.querySelector('.confirm-overlay').addEventListener('click', () => {
+        confirmElement.querySelector('.confirm-box').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        confirmElement.addEventListener('click', () => {
             confirmElement.remove();
+        });
+        cancelBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
 
         if (that.config.cancelButtonClasses) {
@@ -56,6 +64,6 @@ export class ConfirmDirective implements OnInit {
             });
         }
 
-        that.element.nativeElement.appendChild(confirmElement);
+        document.body.appendChild(confirmElement);
     }
 }

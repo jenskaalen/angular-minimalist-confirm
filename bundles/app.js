@@ -37380,7 +37380,7 @@
 	        this.acceptButtonClasses = ['peen'];
 	        this.cancelButtonClasses = [];
 	        this.defaultText = "Are you sure?";
-	        this.htmlBase = "<div class=\"confirm-overlay\">\n    <style>\n        .confirm-overlay {\n            position: fixed;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: rgba(0, 0, 0, 0.7);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n        .confirm-box{\n            min-width: 250px;\n            min-height: 100px;\n            background-color: white;\n            flex-direction: column;\n            display: flex;\n            justify-content: space-around;\n        }\n        .confirm-text { \n            width: 100%;\n            padding: 5px;\n            margin: 5px;\n            text-align: center;\n            flex-grow: 1;\n        }\n        .confirm-box button { \n            margin: 1em;\n        }\n        .button-group { \n            text-align: center;\n        }\n    </style>\n    <div class=\"confirm-box\">\n    <div class=\"confirm-text\"></div>\n    <div class=\"button-group\">\n    <button name=\"cancel\">No</button>\n    <button name=\"accept\">Yes</button>\n    </div>\n    </div>\n    </div>";
+	        this.htmlBase = "<div class=\"confirm-overlay\">\n    <style>\n        .confirm-overlay {\n            position: fixed;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            background: rgba(0, 0, 0, 0.7);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            z-index: 12;\n        }\n        .confirm-box{\n            min-width: 250px;\n            min-height: 100px;\n            background-color: white;\n            flex-direction: column;\n            display: flex;\n            justify-content: space-around;\n            z-index: 14;\n        }\n        .confirm-text { \n            width: 100%;\n            padding: 5px;\n            margin: 5px;\n            text-align: center;\n            flex-grow: 1;\n        }\n        .confirm-box button { \n            margin: 1em;\n        }\n        .button-group { \n            text-align: center;\n        }\n    </style>\n    <div class=\"confirm-box\">\n    <div class=\"confirm-text\"></div>\n    <div class=\"button-group\">\n    <button name=\"cancel\">No</button>\n    <button name=\"accept\">Yes</button>\n    </div>\n    </div>\n    </div>";
 	    }
 	    return ConfirmerConfiguration;
 	}());
@@ -42343,11 +42343,12 @@
 	        var ele = this.element.nativeElement;
 	        var createConfirm = this.createConfirm;
 	        var that = this;
-	        ele.addEventListener('click', function () {
+	        ele.addEventListener('click', function (e) {
 	            createConfirm(that);
 	        });
 	    };
 	    ConfirmDirective.prototype.createConfirm = function (that) {
+	        console.log('gogo');
 	        var confirmElement = document.createElement('div');
 	        confirmElement.innerHTML = that.config.htmlBase;
 	        var accept = that.accept;
@@ -42358,8 +42359,14 @@
 	        });
 	        var cancelBtn = confirmElement.querySelector('[name=cancel]');
 	        var acceptBtn = confirmElement.querySelector('[name=accept]');
-	        confirmElement.querySelector('.confirm-overlay').addEventListener('click', function () {
+	        confirmElement.querySelector('.confirm-box').addEventListener('click', function (e) {
+	            e.stopPropagation();
+	        });
+	        confirmElement.addEventListener('click', function () {
 	            confirmElement.remove();
+	        });
+	        cancelBtn.addEventListener('click', function (e) {
+	            e.stopPropagation();
 	        });
 	        if (that.config.cancelButtonClasses) {
 	            that.config.cancelButtonClasses.forEach(function (cssClass) {
@@ -42371,7 +42378,7 @@
 	                acceptBtn.classList.add(cssClass);
 	            });
 	        }
-	        that.element.nativeElement.appendChild(confirmElement);
+	        document.body.appendChild(confirmElement);
 	    };
 	    __decorate([
 	        core_1.Input(), 
