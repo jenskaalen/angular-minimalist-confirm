@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/angular-minimalist-confirm.svg)](https://badge.fury.io/js/angular-minimalist-confirm)
+
 # angular2minimalist
 Minimalistic angular2 confirm directive
 

@@ -1,17 +1,123 @@
+<!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Angular-minimalist-confirm by jenskaalen</title>
 
-<head>
-    <style>
-        .accept-button {
-            color: red;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Angular-minimalist-confirm</h1>
+        <p>Minimalistic angular2 starter with webpack </p>
 
-<body>
-    <test-component></test-component>
+        <p class="view"><a href="https://github.com/jenskaalen/angular-minimalist-confirm">View the Project on GitHub <small>jenskaalen/angular-minimalist-confirm</small></a></p>
 
-    <script src="/bundles/app.js"></script>
-</body>
 
+        <ul>
+          <li><a href="https://github.com/jenskaalen/angular-minimalist-confirm/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/jenskaalen/angular-minimalist-confirm/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/jenskaalen/angular-minimalist-confirm">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><a href="https://badge.fury.io/js/angular-minimalist-confirm"><img src="https://badge.fury.io/js/angular-minimalist-confirm.svg" alt="npm version"></a></p>
+
+<h1>
+<a id="angular2minimalist" class="anchor" href="#angular2minimalist" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>angular2minimalist</h1>
+
+<p>Minimalistic angular2 confirm directive</p>
+
+<h2>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing</h2>
+
+<ol>
+<li>Run "npm install --save angular-minimalist-confirm" </li>
+<li>Add ConfirmerModule to your module imports.<br>
+Like so:<br>
+</li>
+</ol>
+
+<h2>
+<a id="using" class="anchor" href="#using" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using</h2>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-c">//... other imports</span>
+<span class="pl-k">import</span> { <span class="pl-smi">ConfirmerModule</span> } <span class="pl-k">from</span> <span class="pl-s"><span class="pl-pds">'</span>angular-minimalist-confirm<span class="pl-pds">'</span></span>;
+
+@<span class="pl-en">NgModule</span>({
+    imports: [ <span class="pl-smi">BrowserModule</span>, <span class="pl-smi">FormsModule</span>, <span class="pl-smi">ConfirmerModule</span> ],
+    declarations: [ <span class="pl-smi">TestComponent</span> ],
+    bootstrap:    [ <span class="pl-smi">TestComponent</span> ]
+})
+<span class="pl-k">export</span> <span class="pl-k">class</span> <span class="pl-en">AppModule</span> { }</pre></div>
+
+<p>A component with a function to fire</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">export</span> <span class="pl-k">class</span> <span class="pl-en">TestComponent</span> {
+    testText<span class="pl-k">:</span> <span class="pl-c1">string</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>this is the initial text<span class="pl-pds">"</span></span>;
+
+    accept(){
+        <span class="pl-c1">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Deleted yourself<span class="pl-pds">'</span></span>);
+    }
+}</pre></div>
+
+<p>And the html template using the directive</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">button</span> <span class="pl-e">confirm</span> [<span class="pl-e">accept</span>]=<span class="pl-s"><span class="pl-pds">"</span>accept<span class="pl-pds">"</span></span> <span class="pl-e">confirmText</span>=<span class="pl-s"><span class="pl-pds">"</span>Are you sure you wanna do that?<span class="pl-pds">"</span></span>&gt;Delete yourself&lt;/<span class="pl-ent">button</span>&gt;</pre></div>
+
+<h2>
+<a id="configuring-the-look" class="anchor" href="#configuring-the-look" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring the look</h2>
+
+<p>At the moment you have just two ways of configuring the looks, both are by overriding the ConfirmerConfiguration class.<br>
+1. Changing the whole html template for the modal. The only thing that is required the following:  </p>
+
+<ul>
+<li>
+<p>Two buttons that are have the html attribute 'name="cancel' and 'name=accept'.<br>
+Like so  </p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">button</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>cancel<span class="pl-pds">"</span></span>&gt;No&lt;/<span class="pl-ent">button</span>&gt;
+&lt;<span class="pl-ent">button</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>accept<span class="pl-pds">"</span></span>&gt;Yes&lt;/<span class="pl-ent">button</span>&gt;</pre></div>
+</li>
+</ul>
+
+<ol>
+<li>You can add css classes to the buttons. </li>
+</ol>
+
+<p>So, that becomes </p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">export</span> <span class="pl-k">class</span> <span class="pl-en">ConfirmerConfigExt</span> <span class="pl-k">extends</span> <span class="pl-e">ConfirmerConfiguration</span> 
+{
+    <span class="pl-k">constructor</span>()
+    {
+        <span class="pl-v">super</span>();
+        <span class="pl-v">this</span>.<span class="pl-smi">acceptButtonClasses</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>accept-button<span class="pl-pds">"</span></span>];
+        <span class="pl-v">this</span>.<span class="pl-smi">cancelButtonClasses</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">"</span>cancel-button<span class="pl-pds">"</span></span>];
+        <span class="pl-v">this</span>.<span class="pl-smi">htmlBase</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>&lt;div class=<span class="pl-cce">\"</span>whateverlayout<span class="pl-cce">\"</span>&gt;&lt;button name=<span class="pl-cce">\"</span>cancel<span class="pl-cce">\"</span>&gt;No&lt;/button&gt;&lt;button name=<span class="pl-cce">\"</span>accept<span class="pl-cce">\"</span>&gt;Yes&lt;/button&gt;&lt;/div&gt;<span class="pl-pds">"</span></span>
+    }
+}
+
+@<span class="pl-en">NgModule</span>({
+    imports: [ <span class="pl-smi">BrowserModule</span>, <span class="pl-smi">FormsModule</span>, <span class="pl-smi">ConfirmerModule</span> ],
+    declarations: [ <span class="pl-smi">TestComponent</span> ],
+    providers: [ { provide: <span class="pl-smi">ConfirmerConfiguration</span>, useClass: <span class="pl-smi">ConfirmerConfigExt</span> } ],
+    bootstrap:    [ <span class="pl-smi">TestComponent</span> ]
+})</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jenskaalen">jenskaalen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
 </html>
